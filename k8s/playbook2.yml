@@ -1,0 +1,16 @@
+- name: Gitops con Openshift y Ansible
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars:
+    namespace: emsya-dev
+  module_defaults:
+    group/k8s:
+      namespace: "{{ namespace }}"
+      api_key: "sha256~NPrH2KnMvu-bjYMtzCD7TI91v7USMV8dwZm43ox26Vo"
+      host: https://api.sandbox.x8i5.p1.openshiftapps.com:6443
+  tasks:
+    - name: Eliminar objetos desde la especificacion
+      k8s:
+        state: absent
+        src: "{{ playbook_dir + '/hello.yml' }}"
