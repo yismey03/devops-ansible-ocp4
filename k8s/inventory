@@ -1,15 +1,1 @@
 localhost
-
-[datacenter_este]
-server01
-server02
-server03
-
-[datacenter_oeste]
-server04
-server05
-server06
-
-[datacenters:children]
-datacenter_este
-datacenter_oeste
