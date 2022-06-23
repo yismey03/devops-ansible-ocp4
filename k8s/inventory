@@ -4,6 +4,7 @@ localhost
 servera
 serverb
 serverc
+serverh
 
 [datacenter_sur]
 serverd
