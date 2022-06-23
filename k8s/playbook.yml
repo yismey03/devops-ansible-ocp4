@@ -28,7 +28,7 @@
     - name: Obtener informacion sobre los Pods del proyecto
       k8s_info:
         kind: Pod
-        label_selector:
+        label_selectors:
           - app = nodejs-ex
           
     - name: Expongo el servicio con HTTPS
