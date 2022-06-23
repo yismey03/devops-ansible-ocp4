@@ -1,6 +1,6 @@
 ---
 - name: Demostrar los modulos k8s
-  hosts: localhosts
+  hosts: localhost
   gather_facts: no
   connection: local
   vars:
