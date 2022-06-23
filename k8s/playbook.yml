@@ -1,0 +1,42 @@
+---
+- name: Demostrar los modulos k8s
+  hosts: localhosts
+  gather_facts: no
+  connection: local
+  vars:
+    namespace: emsya-dev
+  module_defaults:
+    group/k8s:
+      namespace: "{{ namespace }}"
+      api_key: "sha256~QNylZeD-UZFS9VOnHaHqrAd7HsrNw_cNZAdLfsXH3X4"
+      host: https://api.sandbox.x8i5.p1.openshiftapps.com:6443
+  tasks:
+    - name: Crear objetos desde el manifiesto
+      k8s:
+        state: present
+        src: "{{ playbook_dir + '/hello.yml' }}"
+        
+    - name: Cambiar el servicio de ClusterIP a NodePort
+      k8s_service:
+        state: present
+        name: nodejs-ex
+        type: NodePort
+        ports:
+          - port: 8080
+            protocol: TCP
+            
+    - name: Obtener informacion sobre los Pods del proyecto
+      k8s_info:
+        kind: Pod
+        label_selector:
+          - app = nodejs-ex
+          
+    - name: Expongo el servicio con HTTPS
+      k8s_service:
+        state: present
+        name: nodejs-ex
+        ports:
+          - port: 443
+            protocol: TCP
+        selector:
+          app: nodejs-ex
