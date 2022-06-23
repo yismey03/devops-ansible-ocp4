@@ -3,12 +3,10 @@
   hosts: localhost
   gather_facts: no
   connection: local
-  vars:
-    namespace: emsya-dev
   module_defaults:
     group/k8s:
       namespace: "{{ namespace }}"
-      api_key: "sha256~QNylZeD-UZFS9VOnHaHqrAd7HsrNw_cNZAdLfsXH3X4"
+      api_key: "{{ myapikey }}"
       host: https://api.sandbox.x8i5.p1.openshiftapps.com:6443
   tasks:
     - name: Eliminar objetos desde el manifiesto
