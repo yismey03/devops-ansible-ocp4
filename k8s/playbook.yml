@@ -15,4 +15,30 @@
     - name: Creamos los objetos del manifiesto
       k8s:
         state: present
-        src: "{{ plabook_dir + '/hello.yml' }}"
+        src: "{{ playbook_dir + '/hello.yml' }}"
+        
+    - name: Cambiar de ClusterIP a NodePort
+      k8s_service:
+        state: present
+        name: nodejs-ex
+        type: NodePort
+        ports:
+          - port: 8080
+            protocol: TCP
+            
+    - name: Obtener información de los pods
+      k8s_info:
+        kind: Pod
+        label_selectors:
+          - app = nodejs-ex
+          
+    - name: Exponer el puerto https como ClusterIP
+      k8s_service:
+        state: present
+        name: nodejs-ex
+        ports:
+          - port: 443
+            protocol: TCP
+        selector:
+          app: nodejs-ex
+        
