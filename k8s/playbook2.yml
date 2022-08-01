@@ -1,0 +1,15 @@
+- name: Demostrar los módulos k8s
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  module_defaults:
+    group/k8s:
+      namespace: "{{ namespace }}"
+      api_key: "{{ api_key }}"
+      host: https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443
+      
+  tasks:
+    - name: Creamos los objetos del manifiesto
+      k8s:
+        state: absent
+        src: "{{ playbook_dir + '/hello.yml' }}"
