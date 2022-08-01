@@ -22,3 +22,7 @@ serverf
 [datacenters:children]
 datacenter_norte
 datacenter_sur
+
+[datacenter_este]
+serverg
+serverh
