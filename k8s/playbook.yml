@@ -1,0 +1,18 @@
+- name: Demostrar los módulos k8s
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  vars:
+    namespace: marianogbarbero-dev
+    
+  module_defaults:
+    group/k8s:
+      namespace: "{{ namespace }}"
+      api_key: "sha256~wKj3ukR9edZ9h7aKkjIomN_nh5Vv8OTnnAhPO2_Z9YA"
+      host: https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443
+      
+  tasks:
+    - name: Creamos los objetos del manifiesto
+      k8s:
+        state: present
+        src: "{{ plabook_dir + '/hello.yml' }}"
