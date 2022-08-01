@@ -7,7 +7,7 @@
     group/k8s:
       namespace: "{{ namespace }}"
       api_key: "{{ myapikey }}"
-      host: https://api.sandbox.x8i5.p1.openshiftapps.com:6443
+      host: https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443
   tasks:
     - name: Crear objetos desde el manifiesto
       k8s:
