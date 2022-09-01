@@ -26,7 +26,7 @@
               protocol: TCP
               
       - name: Obtener información de los pods
-        k8s_info:
+        k8s_info: 
           kind: Pod
           label_selectors:
             - app = nodejs-ex
