@@ -1,42 +1,41 @@
-- name: Demostrar modulos k8s
+- name: Demostrar módulos k8s
   hosts: localhost
   gather_facts: no
   connection: local
-  vars:
-    namespace: yismey03-dev
+    
   module_defaults:
     group/k8s:
       namespace: "{{ namespace }}"
-      api_key: "sha256~1MhJNL3j0GCZGvnlzof5XcDMKgmmmDGcRz2vBkivf5U"
-      host: https://api.sandbox-m2.ll9k.p1.openshiftapps.com:6443
-      
-    tasks:
-      - name: Crear los objetos del manifiesto
-        k8s:
-          state: present
-          src: "{{ playbook_dir + '/hello.yml' }}"
+      api_key: "{{ api_key }}"
+      host: "{{ host_ocp }}"
+   
+  tasks:
+    - name: Crear los objetos del manifiesto
+      k8s:
+        state: present
+        src: "{{ playbook_dir + '/hello.yml' }}"
+        
+    - name: Cambiar de ClusterIP a NodePort
+      k8s_service:
+        state: present
+        name: nodejs-ex
+        type: NodePort
+        ports:
+          - port: 8080
+            protocol: TCP
+            
+    - name: Obtener información de los pods
+      k8s_info:
+        kind: Pod
+        label_selectors:
+          - app = nodejs-ex
           
-      - name: Cambiar de clusterIP a NodePort
-        k8_service:
-          state: present
-          name: nodejs-ex
-          type: NodePort
-          ports:
-            - port: 8080
-              protocol: TCP
-              
-      - name: Obtener información de los pods
-        k8s_info: 
-          kind: Pod
-          label_selectors:
-            - app = nodejs-ex
-          
-      - name: Exponer https con ClusterIP
-        k8s_service:
-          state: present
-          name: nodejs-ex
-          ports:
-            - port: 443
-              protocol: TCP
-          selector:
-            app: nodejs-ex
+    - name: Exponer https con ClusterIP
+      k8s_service:
+        state: present
+        name: nodejs-ex
+        ports:
+          - port: 443
+            protocol: TCP
+        selector:
+          app: nodejs-ex
