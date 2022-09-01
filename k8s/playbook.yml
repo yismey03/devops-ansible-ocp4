@@ -23,7 +23,7 @@
           type: NodePort
           ports:
             - port: 8080
-              protocol:TCP
+              protocol: TCP
               
       - name: Obtener información de los pods
         k8s_info:
